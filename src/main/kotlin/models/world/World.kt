@@ -21,4 +21,14 @@ class World(private val generator: IdGenerator = SequenceIdGenerator()): HammerO
         solid.addContainer(solid.editor)
         super.addContainer(solid)
     }
+    fun add(entity: Entity) {
+        entity.put("id", generator.next().toString())
+        entity.addContainer(entity.editor)
+        super.addContainer(entity)
+    }
+
+    fun clear(){
+        clearContainer()
+        generator.clear(0)
+    }
 }

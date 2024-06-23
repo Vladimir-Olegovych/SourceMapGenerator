@@ -15,6 +15,10 @@ open class HammerObject(
         container.add(hammerObject)
     }
 
+    fun clearContainer() {
+        container.clear()
+    }
+
     private val stringBuilder = StringBuilder()
     fun getContainer(): String {
         try {

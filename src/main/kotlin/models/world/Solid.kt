@@ -1,5 +1,6 @@
 package org.example.models.world
 
+import org.example.Materials.NO_DRAW
 import org.example.models.HammerObject
 import org.example.tools.Vector3
 
@@ -24,17 +25,29 @@ class Solid: HammerObject("solid") {
             put("vaxis", "[0 0 -1 0] 0.25")
         }
     }
-    fun set(vector3: Vector3,
-            wx: Int,
-            wz: Int,
-            h: Int,
-            material: String = "tools/toolsnodraw") {
-        val x1 = vector3.x - wx / 2
-        val y1 = vector3.z + wz / 2
-        val z1 = vector3.y + h / 2
-        val x2 = vector3.x + wx / 2
-        val y2 = vector3.z - wz / 2
-        val z2 = vector3.y - h / 2
+
+    private var vector3Position = Vector3(0, 0, 0)
+    private var vector3Size = Vector3(0, 0, 0)
+    private var material = NO_DRAW
+
+    fun getPosition(): Vector3 = vector3Position
+    fun getSize(): Vector3 = vector3Size
+    fun getMaterial(): String = material
+
+    fun set(vector3Position: Vector3,
+            vector3Size: Vector3,
+            material: String = NO_DRAW) {
+
+        this.vector3Position = vector3Position
+        this.vector3Size = vector3Size
+        this.material = material
+
+        val x1 = vector3Position.x - vector3Size.x / 2
+        val y1 = vector3Position.z + vector3Size.z / 2
+        val z1 = vector3Position.y + vector3Size.y / 2
+        val x2 = vector3Position.x + vector3Size.x / 2
+        val y2 = vector3Position.z - vector3Size.z / 2
+        val z2 = vector3Position.y - vector3Size.y / 2
 
         sides[0].set(
             x1, y2, z2,
