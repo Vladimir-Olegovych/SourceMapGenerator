@@ -17,28 +17,8 @@ class World(private val generator: IdGenerator = SequenceIdGenerator()): HammerO
     fun add(solid: Solid) {
         solid.put("id", generator.next().toString())
         solid.sides.forEach { it.put("id", generator.next().toString()) }
-        super.addForContainer(solid)
-    }
-
-    fun getWorldContainer(): String {
-        val stringBuilder = StringBuilder()
-        for (containerHammerObject in container) {
-            stringBuilder.append(containerHammerObject.name).append("{")
-            stringBuilder.append(getPropertiesString(containerHammerObject.properties))
-            when(containerHammerObject) {
-                is Solid -> {
-                    for(side in containerHammerObject.sides){
-                        stringBuilder.append(side.name).append("{")
-                        stringBuilder.append(getPropertiesString(side.properties))
-                        stringBuilder.append("}\n")
-                    }
-                    stringBuilder.append(containerHammerObject.editor.name).append("{")
-                    stringBuilder.append(getPropertiesString(containerHammerObject.editor.properties))
-                    stringBuilder.append("}\n")
-                }
-            }
-            stringBuilder.append("}\n")
-        }
-        return stringBuilder.toString()
+        solid.sides.forEach { solid.addContainer(it) }
+        solid.addContainer(solid.editor)
+        super.addContainer(solid)
     }
 }

@@ -75,17 +75,4 @@ class Solid: HammerObject("solid") {
             material
         )
     }
-
-    fun getSolidContainer(): String {
-        val stringBuilder = StringBuilder()
-        for (side in sides) {
-            stringBuilder.append(side.name).append("{")
-            stringBuilder.append(getPropertiesString(side.properties))
-            stringBuilder.append("}\n")
-        }
-        stringBuilder.append(editor.name).append("{")
-        stringBuilder.append(getPropertiesString(editor.properties))
-        stringBuilder.append("}\n")
-        return stringBuilder.toString()
-    }
 }

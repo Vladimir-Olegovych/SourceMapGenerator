@@ -1,41 +1,45 @@
 package org.example.models
 
-import org.example.models.world.Solid
-import org.example.models.world.World
-
 open class HammerObject(
-    val name: String
+    private val name: String
 ) {
-    val properties = HashMap<String, String>()
-    val container = ArrayList<HammerObject>()
+    private val properties = HashMap<String, String>()
+    private val container = ArrayList<HammerObject>()
+
 
     fun put(key: String, value: String) {
         properties[key] = value
     }
 
-    fun addForContainer(solid: Solid) {
-        container.add(solid)
+    fun addContainer(hammerObject: HammerObject) {
+        container.add(hammerObject)
     }
 
-    fun getPropertiesString(properties: HashMap<String, String>): String {
-        val stringBuilder = StringBuilder()
-        properties.forEach { (key, value) ->
-            stringBuilder.append("\"$key\" ").append("\"$value\"\n")
-        }
-        return stringBuilder.toString()
-    }
-
+    private val stringBuilder = StringBuilder()
     fun getContainer(): String {
-        val stringBuilder = StringBuilder()
-        stringBuilder.append(name).append("{")
-        stringBuilder.append(getPropertiesString(properties))
-        when(this) {
-            is World -> stringBuilder.append(getWorldContainer())
-            is Solid -> stringBuilder.append(getSolidContainer())
+        try {
+            stringBuilder.append(name).append("{")
+            stringBuilder.append(getPropertiesString(properties))
+            getHammerObjectContainer(this)
+            stringBuilder.append("\n}\n")
+            return stringBuilder.toString()
+        } finally {
+            stringBuilder.clear()
         }
-
-        stringBuilder.append("}")
-        return stringBuilder.toString()
+    }
+    private fun getHammerObjectContainer(hammerObject: HammerObject) {
+        for (containerHammerObject in hammerObject.container) {
+            stringBuilder.append(containerHammerObject.name).append("{")
+            stringBuilder.append(getPropertiesString(containerHammerObject.properties))
+            if (containerHammerObject.container.size != 0) getHammerObjectContainer(containerHammerObject)
+            stringBuilder.append("\n}\n")
+        }
     }
 
+    private fun getPropertiesString(properties: HashMap<String, String>): String {
+        val stringBuilder = StringBuilder()
+        properties.forEach { (key, value) -> stringBuilder.append("\n\"$key\" ").append("\"$value\"") }
+        return stringBuilder.toString()
+
+    }
 }
