@@ -11,12 +11,12 @@ open class HammerObject(
         properties[key] = value
     }
 
-    fun addContainer(hammerObject: HammerObject) {
-        container.add(hammerObject)
+    fun clearContainer(){
+        container.clear()
     }
 
-    fun clearContainer() {
-        container.clear()
+    fun addContainer(hammerObject: HammerObject) {
+        container.add(hammerObject)
     }
 
     private val stringBuilder = StringBuilder()

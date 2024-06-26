@@ -10,6 +10,7 @@ class Solid: HammerObject("solid") {
         put("visgroupshown", "1")
         put("visgroupautoshown", "1")
     }
+
     val sides = Array(6) { Side() }
     init {
         for (i in 0..1) sides[i].apply {
@@ -26,28 +27,17 @@ class Solid: HammerObject("solid") {
         }
     }
 
-    private var vector3Position = Vector3(0, 0, 0)
-    private var vector3Size = Vector3(0, 0, 0)
-    private var material = NO_DRAW
 
-    fun getPosition(): Vector3 = vector3Position
-    fun getSize(): Vector3 = vector3Size
-    fun getMaterial(): String = material
-
-    fun set(vector3Position: Vector3,
-            vector3Size: Vector3,
+    fun set(position: Vector3,
+            size: Vector3,
             material: String = NO_DRAW) {
 
-        this.vector3Position = vector3Position
-        this.vector3Size = vector3Size
-        this.material = material
-
-        val x1 = vector3Position.x - vector3Size.x / 2
-        val y1 = vector3Position.z + vector3Size.z / 2
-        val z1 = vector3Position.y + vector3Size.y / 2
-        val x2 = vector3Position.x + vector3Size.x / 2
-        val y2 = vector3Position.z - vector3Size.z / 2
-        val z2 = vector3Position.y - vector3Size.y / 2
+        val x1 = position.x - size.x / 2
+        val y1 = position.z + size.z / 2
+        val z1 = position.y + size.y / 2
+        val x2 = position.x + size.x / 2
+        val y2 = position.z - size.z / 2
+        val z2 = position.y - size.y / 2
 
         sides[0].set(
             x1, y2, z2,
